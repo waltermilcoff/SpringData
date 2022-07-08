@@ -1,9 +1,6 @@
 package com.waltermilcoff.moviesfest.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -17,10 +14,13 @@ public class Film {
     private String description;
     private LocalDate creationDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
     public Film() {
     }
 
-    public Film(String title, String description, LocalDate creationDate) {
+    public Film(String title, String description, LocalDate creationDate, Category category) {
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
@@ -56,6 +56,14 @@ public class Film {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

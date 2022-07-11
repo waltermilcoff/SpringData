@@ -2,7 +2,9 @@ package com.waltermilcoff.moviesfest.domain;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Film {
@@ -16,6 +18,16 @@ public class Film {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    private Set<CastMember> actors = new HashSet<>();
+
+    public Set<CastMember> getActors() {
+        return actors;
+    }
 
     public Film() {
     }
@@ -64,6 +76,11 @@ public class Film {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void addActor(CastMember castMember){
+        actors.add(castMember);
+        castMember.getFilms().add(this);
     }
 
     @Override

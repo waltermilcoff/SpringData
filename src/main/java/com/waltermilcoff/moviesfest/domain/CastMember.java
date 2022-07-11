@@ -1,11 +1,10 @@
 package com.waltermilcoff.moviesfest.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class CastMember {
@@ -18,6 +17,13 @@ public class CastMember {
     private LocalDate birthDate;
     private Integer dni;
 
+
+    @ManyToMany(mappedBy = "actors")
+    private Set<Film> films = new HashSet<>();
+
+    public Set<Film> getFilms() {
+        return films;
+    }
 
     public CastMember() {
     }
